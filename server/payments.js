@@ -20,7 +20,8 @@ export function createPayments({ env = process.env, stripeClient, redisClient, f
   return {
     async createCheckout(order, lang) {
       if (!env.STRIPE_WEBHOOK_SECRET || !env.DISCORD_WEBHOOK_URL) throw new Error("configuration");
-      const origin = new URL(env.SITE_URL);
+      const rawUrl = env.SITE_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "https://luro.lol"));
+      const origin = new URL(rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`);
       if (origin.protocol !== "https:" && !(env.VERCEL !== "1" && ["localhost", "127.0.0.1"].includes(origin.hostname))) {
         throw new Error("origin");
       }
