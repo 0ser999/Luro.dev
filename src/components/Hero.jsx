@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { CONFIG } from "../config.js";
 import { useLang } from "../i18n.jsx";
 import { Photoshop, Figma, Windows } from "./BrandIcons.jsx";
 
@@ -45,7 +44,7 @@ export default function Hero() {
         </h1>
         <p className="hero-lead rise" style={rise(3)}>{h.lead}</p>
         <div className="hero-actions rise" style={rise(4)}>
-          <a className="btn btn-dark" href={CONFIG.discord} target="_blank" rel="noopener noreferrer">
+          <a className="btn btn-dark" href="#contact">
             {h.cta1}
           </a>
           <a className="btn btn-glass" href="#work">

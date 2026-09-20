@@ -98,6 +98,23 @@ const en = {
     title: "A PC to boost or a poster to create?",
     text: "Message me with your setup or your idea and I'll get back to you as soon as possible.",
   },
+  order: {
+    title: "Tell me about your project",
+    intro: "Fields marked * are required. I'll reply using your contact details.",
+    name: "Name", contact: "Email or Discord username", contactHint: "you@example.com or @username",
+    service: "Service", choose: "Choose a service", budget: "Budget (optional)", budgetHint: "e.g. €100–200",
+    message: "Your project", messagePlaceholder: "Your setup, your needs, your idea…",
+    messageHint: "20–1,000 characters · Up to 2 links",
+    send: "Send my request", sending: "Sending…", retry: "Retry verification",
+    success: "Thank you! Your request has been sent. I'll get back to you as soon as possible.",
+    captchaUnavailable: "Anti-spam verification is unavailable. Please retry or contact me using the links below.",
+    errors: {
+      INVALID_FIELDS: "Check all required fields, the 20-character minimum and the limit of 2 links.",
+      CAPTCHA_FAILED: "Please complete the anti-spam verification again, then retry.",
+      RATE_LIMITED: "You've reached the limit of 3 requests per hour. Please try again later.",
+      UNAVAILABLE: "Your request could not be confirmed. Please try again later or contact me directly.",
+    },
+  },
   footer: { top: "Back to top ↑" },
 };
 
@@ -198,6 +215,23 @@ const fr = {
   cta: {
     title: "Un PC à booster ou une affiche à créer ?",
     text: "Écris-moi avec ta configuration ou ton idée, je te réponds dès que possible.",
+  },
+  order: {
+    title: "Parle-moi de ton projet",
+    intro: "Les champs marqués * sont obligatoires. Je te répondrai au contact indiqué.",
+    name: "Nom", contact: "Email ou pseudo Discord", contactHint: "toi@exemple.fr ou @pseudo",
+    service: "Service", choose: "Choisis un service", budget: "Budget (optionnel)", budgetHint: "Ex. : 100–200 €",
+    message: "Ton projet", messagePlaceholder: "Ta configuration, ton besoin, ton idée…",
+    messageHint: "20 à 1 000 caractères · 2 liens maximum",
+    send: "Envoyer ma demande", sending: "Envoi en cours…", retry: "Relancer la vérification",
+    success: "Merci ! Ta demande a bien été envoyée. Je te réponds dès que possible.",
+    captchaUnavailable: "La vérification anti-spam est indisponible. Réessaie ou contacte-moi avec les liens ci-dessous.",
+    errors: {
+      INVALID_FIELDS: "Vérifie les champs obligatoires, le minimum de 20 caractères et la limite de 2 liens.",
+      CAPTCHA_FAILED: "Valide à nouveau la vérification anti-spam, puis réessaie.",
+      RATE_LIMITED: "Tu as atteint la limite de 3 envois par heure. Réessaie plus tard.",
+      UNAVAILABLE: "L'envoi n'a pas pu être confirmé. Réessaie plus tard ou contacte-moi directement.",
+    },
   },
   footer: { top: "Retour en haut ↑" },
 };

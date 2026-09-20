@@ -10,7 +10,6 @@ import Process from "./components/Process.jsx";
 import Faq from "./components/Faq.jsx";
 import Cta from "./components/Cta.jsx";
 import Footer from "./components/Footer.jsx";
-import { CONFIG } from "./config.js";
 import { useLang } from "./i18n.jsx";
 
 export default function App() {
@@ -44,7 +43,7 @@ export default function App() {
         <Cta />
       </main>
       <Footer />
-      <a className="float-cta" href={CONFIG.discord} target="_blank" rel="noopener noreferrer">
+      <a className="float-cta" href="#contact">
         {t.float}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
       </a>

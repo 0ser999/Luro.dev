@@ -2,6 +2,7 @@ import Reveal from "./Reveal.jsx";
 import { CONFIG } from "../config.js";
 import Clouds from "./Clouds.jsx";
 import { useLang } from "../i18n.jsx";
+import OrderForm from "./OrderForm.jsx";
 
 export default function Cta() {
   const { t } = useLang();
@@ -13,6 +14,7 @@ export default function Cta() {
         <Clouds layout="cta" />
         <h2>{t.cta.title}</h2>
         <p>{t.cta.text}</p>
+        <OrderForm />
         <div className="hero-actions">
           <a className="btn btn-dark" href={CONFIG.discord} target="_blank" rel="noopener noreferrer">Discord</a>
           <a className="btn btn-glass" href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a>

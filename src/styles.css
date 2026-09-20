@@ -321,6 +321,39 @@ img { max-width: 100%; display: block; }
 .cta p { position: relative; color: rgba(40,18,6,.78); max-width: 480px; margin: 0 auto; }
 .cta .hero-actions { position: relative; }
 
+/* ── order form ── */
+.order-form {
+  position: relative; max-width: 700px; margin: 36px auto 0; padding: 30px;
+  text-align: left; border-radius: 28px; background: rgba(255,255,255,.94);
+  box-shadow: 0 12px 36px rgba(40,120,210,.12), 0 0 0 1px rgba(255,255,255,.7);
+}
+.order-form h3 { font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
+.cta .order-intro { max-width: none; margin: 8px 0 24px; color: var(--muted); font-size: 14px; }
+.order-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 0; border: 0; min-width: 0; }
+.order-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.order-wide { grid-column: 1 / -1; }
+.order-field label { font-size: 14px; font-weight: 600; }
+.order-field input, .order-field select, .order-field textarea {
+  width: 100%; min-width: 0; padding: 12px 14px; border: 1px solid #c8d8e8;
+  border-radius: 12px; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--font);
+}
+.order-field textarea { resize: vertical; }
+.order-field input::placeholder, .order-field textarea::placeholder { color: #687785; opacity: 1; }
+.order-field small { color: var(--muted); font-size: 13px; }
+.order-captcha { margin: 22px 0 16px; min-height: 65px; }
+.order-submit { width: 100%; }
+.order-form button:disabled { cursor: not-allowed; opacity: .55; transform: none; }
+.cta .order-notice { max-width: none; margin: 16px 0 0; font-size: 14px; padding: 12px 14px; border-radius: 12px; }
+.cta .order-error { color: #8e2727; background: #fff0f0; }
+.cta .order-success { color: #175b3a; background: #e6f6ed; }
+.order-retry { display: block; margin-top: 8px; padding: 0; border: 0; background: none; text-decoration: underline; }
+.order-notice + .order-submit { margin-top: 16px; }
+@media (max-width: 600px) {
+  .order-form { padding: 20px 16px; }
+  .order-fields { grid-template-columns: 1fr; }
+  .cta:has(.order-form) { padding-left: 12px; padding-right: 12px; }
+}
+
 .footer { width: 100%; max-width: none; margin: 0; padding: 40px 0 0; overflow: hidden; }
 .footer-top {
   max-width: var(--wrap); margin: 0 auto; padding: 0 20px 36px;
