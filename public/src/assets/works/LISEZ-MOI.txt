@@ -1,6 +1,0 @@
-Depose tes affiches ici (jpg, jpeg, png, webp, avif). Elles apparaissent toutes seules dans la section "Work".
-
-Nom du fichier = titre affiche.
-  neon-city.jpg                 -> "Neon city"
-  neon-city__Photoshop.jpg      -> "Neon city" + etiquette "Photoshop"
-Ordre : alphabetique (numerote tes fichiers : 01-..., 02-...).
