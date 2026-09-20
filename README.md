@@ -1,119 +1,111 @@
-# luro.lol — commandes
+# luro.lol — commandes payées avec Stripe
 
-Portfolio React + Vite. Le formulaire bilingue se trouve dans la section `#contact`.
-Sur Vercel, `api/order.js` expose la fonction Node `/api/order`. En local, Vite branche
-le même gestionnaire serveur pour que `npm run dev` serve aussi l'API.
+Portfolio React + Vite, formulaire français/anglais dans `#contact`.
 
-## Configuration
+## Parcours
 
-Dans Vercel → projet → Settings → Environment Variables, ajouter :
+1. Le client choisit une prestation, fournit son nom, son **email obligatoire**, son message et, éventuellement, son pseudo Discord.
+2. `POST /api/order` valide les champs, le honeypot, Turnstile et le quota Upstash (3 ouvertures de paiement par heure/IP).
+3. Le serveur prend le tarif dans `src/order-config.js`, sauvegarde le brief dans Redis et crée une session **Stripe Checkout hébergée**. Il n'envoie encore aucun message Discord.
+4. Le client paie sur Stripe. Le site ne collecte aucune donnée de carte bancaire.
+5. `POST /api/stripe-webhook` vérifie la signature sur le corps brut, récupère la session chez Stripe et vérifie le paiement, le montant, la devise et la référence de commande avant d'envoyer l'embed Discord.
+6. Le retour du client consulte `GET /api/order-status`. Un simple `?payment=success` n'est jamais une preuve de paiement. L'envoi fonctionne même si le client ferme l'onglet après paiement.
 
-| Variable | Valeur attendue |
+Aucun Payment Link ni produit Stripe à créer à la main : le serveur construit les lignes de paiement. Aucune clé publique Stripe n'est nécessaire pour cette redirection.
+
+## Tarifs proposés en USD
+
+| Prestation | Prix |
+| --- | ---: |
+| Optimisation complète Windows + BIOS | 90 $ |
+| Optimisation Windows | 50 $ |
+| Réglages BIOS | 40 $ |
+| Miniature | 20 $ |
+| Bannière | 25 $ |
+| Affiche / visuel | 35 $ |
+| Retouche photo | 25 $ |
+| Maquette Figma, un écran | 60 $ |
+| Identité visuelle, kit avatar + bannière + palette | 75 $ |
+
+Windows 50 $ + BIOS 40 $ = pack complet 90 $. Les autres tarifs sont une proposition modifiable. Toutes les valeurs sont en centimes dans `src/order-config.js`, utilisées par le formulaire et le serveur. Une commande correspond à une prestation. Pas de coupon, conversion automatique, abonnement ou taxe supplémentaire configuré dans cette intégration.
+
+## Configuration Vercel
+
+Framework **Vite**, build `npm run build`, dossier `dist`, Node.js 22 ou 24.
+Ajouter ces variables dans Settings → Environment Variables, puis redéployer :
+
+| Variable | Valeur |
 | --- | --- |
-| `VITE_TURNSTILE_SITE_KEY` | Site key publique du widget Cloudflare Turnstile |
-| `TURNSTILE_SECRET` | Secret du même widget, uniquement côté serveur |
-| `DISCORD_WEBHOOK_URL` | URL du webhook du salon de réception |
-| `UPSTASH_REDIS_REST_URL` | URL REST d'une base Upstash Redis |
-| `UPSTASH_REDIS_REST_TOKEN` | Jeton REST en lecture/écriture de cette base |
+| `VITE_TURNSTILE_SITE_KEY` | Site key publique Turnstile |
+| `TURNSTILE_SECRET` | Secret du même widget |
+| `DISCORD_WEBHOOK_URL` | Webhook du salon de commandes |
+| `UPSTASH_REDIS_REST_URL` | URL REST Upstash Redis |
+| `UPSTASH_REDIS_REST_TOKEN` | Token REST en lecture/écriture |
+| `STRIPE_SECRET_KEY` | Clé secrète Stripe du mode utilisé : test ou production |
+| `STRIPE_WEBHOOK_SECRET` | Secret de signature de la destination webhook correspondante |
+| `SITE_URL` | `https://luro.lol` en production, adresse locale exacte en développement |
 
-Configurer Production et, si nécessaire, Preview/Development. Redéployer après
-modification, car Vite intègre la clé publique au build. Ne jamais préfixer les
-secrets par `VITE_`. Aucun secret n'est fourni dans les fichiers suivis.
+Ne jamais préfixer les secrets par `VITE_`. `.env*` est ignoré, sauf `.env.example` qui ne contient aucune valeur. `.env.local` contient déjà les deux valeurs Turnstile fournies ; compléter les champs restants sans écraser ce fichier.
 
-Dans Cloudflare Turnstile, autoriser `luro.lol` ainsi que les autres noms de domaine
-réellement utilisés, et `localhost` pour tester avec un vrai widget. Les clés de
-test officielles Cloudflare peuvent aussi être utilisées dans `.env.local`
-uniquement : https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+Dans Stripe Workbench → Webhooks, créer une destination :
 
-Vercel : framework **Vite**, build `npm run build`, dossier de sortie `dist`,
-Node.js 22 ou 24. Ne pas ajouter de réécriture globale qui masquerait `/api/order`.
+- URL : `https://luro.lol/api/stripe-webhook`
+- Événements : `checkout.session.completed` et `checkout.session.async_payment_succeeded`
+- Reporter son secret `whsec_…` dans `STRIPE_WEBHOOK_SECRET`.
 
-## Tester en local
+Ne pas mélanger les clés et destinations des modes test et production. Autoriser la destination Stripe à atteindre `/api/stripe-webhook` si la protection des déploiements Vercel est activée. Ne pas ajouter de réécriture globale qui masque les routes `/api/…`.
+
+Dans Cloudflare, autoriser `luro.lol` et les hôtes de développement utilisés. Pour les tests locaux, utiliser si nécessaire les [clés de test officielles Turnstile](https://developers.cloudflare.com/turnstile/troubleshooting/testing/) uniquement dans l'environnement local.
+
+## Test local
 
 ```powershell
 npm install
 if (!(Test-Path .env.local)) { Copy-Item .env.example .env.local }
-# Renseigner les cinq valeurs dans .env.local, puis :
+# Compléter .env.local ; SITE_URL doit correspondre au port réellement lancé.
 npm run dev
 ```
 
-Si `.env.local` existe déjà, le compléter sans le remplacer. Les deux valeurs
-Turnstile fournies ont été enregistrées dans ce fichier local ignoré ; il reste
-à ajouter le webhook Discord et les deux valeurs Upstash.
+Dans un autre terminal, avec le [Stripe CLI officiel](https://docs.stripe.com/stripe-cli) installé et connecté en mode test :
 
-Ouvrir http://localhost:5173/#contact. Redémarrer le serveur après modification des
-variables. `.env*` est ignoré, avec une exception pour `.env.example` sans valeurs.
-`npm run preview` sert uniquement le build statique, sans API ; utiliser `npm run dev`
-pour tester le formulaire complet, ou `npx vercel dev` pour l'émulation Vercel.
+```powershell
+stripe listen --events checkout.session.completed,checkout.session.async_payment_succeeded --forward-to http://localhost:5173/api/stripe-webhook
+```
+
+Copier le secret de signature affiché par le CLI dans `.env.local`, puis redémarrer Vite. Utiliser la clé secrète Stripe de test. Ouvrir le formulaire, remplir un brief et suivre Stripe Checkout avec les données de carte de test officielles de Stripe. Une confirmation du webhook doit envoyer un embed dans le salon Discord configuré : utiliser un salon de test.
+
+Si Vite choisit 5174 car 5173 est occupé, adapter `SITE_URL` et `--forward-to` à 5174. `npm run preview` sert uniquement les fichiers statiques, sans les API ; utiliser `npm run dev` ou `npx vercel dev` pour le parcours complet.
 
 ```powershell
 npm test
 npm run build
 ```
 
-Les tests automatisés simulent Cloudflare, Upstash et Discord : ils ne publient
-aucun message et n'utilisent aucun secret réel. Un test de réception réel nécessite
-de renseigner le webhook et les accès Upstash, puis d'envoyer le formulaire.
+Les 24 tests automatisés simulent les prestataires et ne créent aucun paiement ou message réel. Ils couvrent notamment : email requis, captcha absent/refusé, validation, limite de débit, prix calculé côté serveur, paiement impayé, signature Stripe invalide, mauvais montant/devise, événements concurrents et répétés, reprise après erreur Discord et statut sans données personnelles.
 
-### Captcha manquant → 403
-
-Avec le serveur local lancé, exécuter dans un autre terminal :
+### Captcha manquant → HTTP 403
 
 ```powershell
-$payload = @{
-  name = "Test"
-  contact = "@test"
-  service = "pc"
-  message = "Je souhaite optimiser mon ordinateur."
-  website = ""
-} | ConvertTo-Json
-Invoke-WebRequest -Uri http://localhost:5173/api/order -Method POST -ContentType 'application/json' -Body $payload -SkipHttpErrorCheck
+curl.exe -i -X POST http://localhost:5173/api/order -H "Content-Type: application/json" --data "{}"
 ```
 
-Résultat attendu : HTTP **403**, code `CAPTCHA_FAILED`. Aucune variable n'est
-nécessaire pour ce test. `-SkipHttpErrorCheck` nécessite PowerShell 7 ; sur
-Windows PowerShell 5, l'omettre et constater l'erreur HTTP 403.
+Résultat attendu : HTTP **403**, `CAPTCHA_FAILED`. Sans appel Stripe ou Discord.
 
-Autres vérifications : GET → 405 ; `website` rempli → 200 silencieux ; message de
-moins de 20 caractères ou plus de 2 liens avec un jeton présent → 400 ; quatrième
-demande avec un captcha frais à chaque fois → 429 et en-tête `Retry-After`.
+## Persistance et limites
 
-## Protection et limites
+- Nom : 80 caractères ; email : 254 avec validation de format ; Discord facultatif : 100 ; message : 20–1 000 caractères et au maximum deux liens. JSON plafonné à 16 Kio.
+- Le serveur ignore tout montant/devise envoyé par le navigateur et prend le prix du catalogue. Le montant payé doit correspondre à l'instantané enregistré lors de la création du paiement, même si les prix du catalogue changent ensuite.
+- Les commandes et le statut d'envoi sont conservés 30 jours dans Upstash, avec expiration automatique. Les métadonnées Stripe ne contiennent que l'identifiant de commande. Les coordonnées et le brief restent dans Redis et le salon Discord après paiement.
+- Le brouillon est conservé dans le `sessionStorage` de l'onglet pendant au plus une heure, puis effacé après confirmation. Une annulation restitue les champs si le stockage du navigateur est disponible.
+- La session de paiement expire après une heure. Une tentative validée consomme le quota même si elle est abandonnée. Upstash Ratelimit utilise une fenêtre glissante approximative partagée entre instances ; aucun repli en mémoire et refus 503 si le quota ne peut pas être vérifié.
+- Un verrou Redis et le statut persistant empêchent les doublons pour les relectures normales et les appels concurrents. Stripe reçoit une erreur 500 si Discord ou Redis échoue pour permettre ses nouvelles tentatives. Surveiller les échecs dans Workbench et renvoyer l'événement après réparation.
+- Discord ne propose pas d'envoi de webhook transactionnel avec Redis. Si le processus s'arrête juste après l'envoi Discord, avant l'enregistrement du succès, un nouvel essai peut créer un doublon. La référence de commande dans l'embed permet de le repérer ; ne pas traiter deux fois une même référence.
+- Une confirmation en attente ne doit jamais inviter à repayer. Le paiement confirmé reste affiché comme reçu même si la transmission Discord doit être réessayée.
 
-- Nom : 80 caractères ; contact : 200 ; budget : 100 ; message : 20–1 000.
-  Le service doit appartenir aux choix autorisés. Taille JSON limitée à 16 Kio.
-- Captcha vérifié côté serveur avec le jeton, le secret et l'IP. Un jeton absent,
-  expiré, réutilisé ou refusé ne déclenche aucun envoi Discord. Le widget est
-  réinitialisé après chaque envoi ; les champs sont conservés en cas d'erreur.
-- Upstash Ratelimit applique `slidingWindow(3, "1 h")` à l'empreinte de l'IP.
-  Le quota est partagé entre les instances Vercel, sans repli en mémoire.
-  L'algorithme utilise une fenêtre glissante approximative. Les personnes derrière
-  une même IP partagent le quota. Une tentative vérifiée consomme un créneau,
-  même si Discord échoue ensuite. Une panne ou un délai dépassé Upstash bloque
-  l'envoi avec une erreur générique 503.
-- Embed Discord avec cinq champs, couleur `0x5865F2`, horodatage et mentions
-  désactivées. Valeurs plafonnées à 1 024 caractères ; les limites du formulaire
-  évitent normalement toute coupure. Aucun jeton ou IP n'est envoyé dans l'embed.
-- Les réponses ne contiennent ni secrets ni erreurs internes des prestataires.
+## Fichiers de cette évolution
 
-Références : [Turnstile serveur](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/),
-[Upstash Ratelimit](https://upstash.com/docs/redis/sdks/ratelimit-ts/gettingstarted),
-[fonctions Node Vercel](https://vercel.com/docs/functions/runtimes/node-js).
+Créés : `server/payments.js`, `server/stripe-handlers.js`, `api/stripe-webhook.js`, `api/order-status.js`, `src/components/ServicePicker.jsx`, `src/components/PaymentReturn.jsx`, `tests/payments.test.js`.
 
-## Fichiers créés ou modifiés
+Modifiés : `src/order-config.js`, `src/components/OrderForm.jsx`, `src/i18n.jsx`, `src/styles.css`, `server/order-handler.js`, `tests/order.test.js`, `vite.config.js`, `package.json`, `package-lock.json`, `.env.example`, `.env.local`, `README.md`.
 
-Créés :
-- `api/order.js` : point d'entrée Vercel.
-- `server/order-handler.js` : validations, Turnstile, quota Upstash et embed Discord.
-- `src/components/OrderForm.jsx` : formulaire et cycle de vie du widget.
-- `src/order-config.js` : services et limites communs au client et au serveur.
-- `tests/order.test.js` : 13 tests serveur, prestataires simulés.
-- `.gitignore`, `.env.example`, `.env.local` : configuration et exclusion des secrets.
-- `README.md` : configuration, tests et limites.
-
-Modifiés :
-- `src/components/Cta.jsx` : insertion du formulaire dans la section contact.
-- `src/components/Hero.jsx`, `src/App.jsx` : accès au formulaire depuis les boutons de contact.
-- `src/i18n.jsx`, `src/styles.css` : textes français/anglais et styles du formulaire.
-- `vite.config.js` : API locale utilisant le même gestionnaire que Vercel.
-- `package.json`, `package-lock.json` : dépendances Upstash et commande de test.
+Références : [Stripe Checkout](https://docs.stripe.com/payments/checkout/how-checkout-works?payment-ui=stripe-hosted), [confirmation de commande](https://docs.stripe.com/checkout/fulfillment?payment-ui=stripe-hosted), [signature des webhooks](https://docs.stripe.com/webhooks/signature), [Vercel Node.js](https://vercel.com/docs/functions/runtimes/node-js).
