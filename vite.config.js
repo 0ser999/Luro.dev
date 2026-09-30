@@ -4,6 +4,7 @@ import { createOrderHandler } from "./server/order-handler.js";
 import { createStripeWebhook, createOrderStatus } from "./server/stripe-handlers.js";
 
 export default defineConfig(({ mode }) => ({
+  build: { rollupOptions: { input: { main: "index.html", reservation: "reservation.html" } } },
   plugins: [react(), {
     name: "local-order-api",
     configureServer(server) {

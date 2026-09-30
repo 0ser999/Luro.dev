@@ -64,14 +64,14 @@ export default function Footer() {
       <div className="footer-top">
         <nav className="footer-links" aria-label={t.nav.main}>
           {IDS.map((id) => (
-            <a key={id} href={`#${id}`}>{t.nav[id]}</a>
+            <a key={id} href={`/#${id}`}>{t.nav[id]}</a>
           ))}
           <a href={CONFIG.discord} target="_blank" rel="noopener noreferrer">Discord</a>
           <a href={`mailto:${CONFIG.email}`}>Email</a>
         </nav>
         <div className="footer-meta">
           <span>© {new Date().getFullYear()} Luro</span>
-          <a href="#top">{t.footer.top}</a>
+          <a href="/#top">{t.footer.top}</a>
         </div>
       </div>
       <GiantText />

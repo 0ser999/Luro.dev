@@ -6,7 +6,7 @@ const en = {
     description: "Luro: professional PC optimizer for 5+ years and graphic designer for 3 years. BIOS tuning, Windows optimization and posters in Photoshop and Figma.",
   },
   nav: { services: "Services", work: "Work", process: "Process", faq: "FAQ", home: "Luro, home", main: "Main navigation", lang: "Français" },
-  float: "Contact me",
+  float: "Book a service",
   marquee: ["PC optimization", "BIOS tuning", "Windows", "Posters", "Photoshop", "Figma", "Thumbnails", "Branding"],
   hero: {
     badge: "New",
@@ -14,8 +14,9 @@ const en = {
     h1a: "PCs that run fast.",
     h1b: "Posters that stand out.",
     lead: "Professional PC optimizer for 5½ years, graphic designer for 3. BIOS tuning, Windows and posters in Photoshop and Figma. I'm Luro.",
-    cta1: "Let's talk",
-    cta2: "See my work",
+    cta1: "Book a service",
+    cta2: "Explore my projects ↗",
+    building: "Always improving",
     optimized: "Optimized PC",
     winbios: "Windows + BIOS",
     biosTitle: "BIOS checklist",
@@ -136,7 +137,7 @@ const fr = {
     description: "Luro : optimiseur PC professionnel depuis plus de 5 ans et graphiste depuis 3 ans. Réglages BIOS, optimisation Windows et affiches sur Photoshop et Figma.",
   },
   nav: { services: "Services", work: "Créations", process: "Méthode", faq: "FAQ", home: "Luro, accueil", main: "Navigation principale", lang: "English" },
-  float: "Me contacter",
+  float: "Réserver",
   marquee: ["Optimisation PC", "Réglages BIOS", "Windows", "Affiches", "Photoshop", "Figma", "Miniatures", "Identité visuelle"],
   hero: {
     badge: "Nouveau",
@@ -144,8 +145,9 @@ const fr = {
     h1a: "Des PC qui tournent vite.",
     h1b: "Des affiches qui claquent.",
     lead: "Optimiseur PC professionnel depuis 5 ans et demi, graphiste depuis 3 ans. Réglages BIOS, Windows et affiches sur Photoshop et Figma. Je m'appelle Luro.",
-    cta1: "Discutons",
-    cta2: "Voir mes créations",
+    cta1: "Réserver une prestation",
+    cta2: "Découvrir mes projets ↗",
+    building: "Je continue de faire évoluer",
     optimized: "PC optimisé",
     winbios: "Windows + BIOS",
     biosTitle: "Checklist BIOS",
@@ -272,7 +274,7 @@ function initialLang() {
   } catch {
     /* storage unavailable */
   }
-  return "en";
+  return navigator.language?.toLowerCase().startsWith("fr") ? "fr" : "en";
 }
 
 export function LangProvider({ children }) {
@@ -291,7 +293,7 @@ export function LangProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.lang = lang;
-    document.title = t.meta.title;
+    document.title = window.location.pathname === "/reservation.html" ? `${lang === "fr" ? "Réserver une prestation" : "Book a service"} — Luro` : t.meta.title;
     document.querySelector('meta[name="description"]')?.setAttribute("content", t.meta.description);
   }, [lang, t]);
 

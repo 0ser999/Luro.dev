@@ -11,6 +11,7 @@ export default function Hero() {
 
   // gentle parallax: the sky moves slower than the page while the hero is on screen
   useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -30,27 +31,28 @@ export default function Hero() {
   return (
     <section className="hero" id="top">
       <div className="hero-bg" aria-hidden="true" ref={bg}>
-        <img className="sky" src="/hero-bg.avif" alt="" fetchpriority="high" />
+        <img className="sky" src="/hero-bg.avif" alt="" fetchPriority="high" />
         <i className="sky-wash" />
       </div>
 
       <div className="hero-inner">
-        <p className="badge rise" style={rise(0)}>
-          <b>{h.badge}</b> {h.badgeText}
-        </p>
+        <a className="badge rise" style={rise(0)} href="#work">
+          <span className="status-dot" /> {h.building} <b>velyro.lol ↗</b>
+        </a>
         <h1>
           <span className="rise" style={rise(1)}>{h.h1a}</span>
           <span className="rise" style={rise(2)}>{h.h1b}</span>
         </h1>
         <p className="hero-lead rise" style={rise(3)}>{h.lead}</p>
         <div className="hero-actions rise" style={rise(4)}>
-          <a className="btn btn-dark" href="#contact">
+          <a className="btn btn-dark" href="/reservation.html">
             {h.cta1}
           </a>
           <a className="btn btn-glass" href="#work">
             {h.cta2}
           </a>
         </div>
+        <p className="hero-signature rise" style={rise(5)}><span /> LURO · PC OPTIMIZATION & DESIGN</p>
       </div>
 
       <div className="hero-cards" aria-hidden="true">

@@ -53,6 +53,13 @@ test("Checkout uses server prices, binds required email and stores brief before 
   const f = fixture();
   await f.payments.createCheckout({ ...order, amount: 1, currency: "eur" }, "fr");
   const checkout = f.creations[0];
+  const success = new URL(checkout.success_url);
+  const cancel = new URL(checkout.cancel_url);
+  assert.equal(success.pathname, "/reservation.html");
+  assert.equal(success.searchParams.get("payment"), "success");
+  assert.equal(success.searchParams.get("session_id"), "{CHECKOUT_SESSION_ID}");
+  assert.equal(cancel.pathname, "/reservation.html");
+  assert.equal(cancel.searchParams.get("payment"), "cancelled");
   assert.equal(checkout.line_items[0].price_data.unit_amount, 9000);
   assert.equal(checkout.line_items[0].price_data.currency, "usd");
   assert.deepEqual(checkout.adaptive_pricing, { enabled: false });

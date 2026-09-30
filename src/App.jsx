@@ -10,15 +10,21 @@ import Process from "./components/Process.jsx";
 import Faq from "./components/Faq.jsx";
 import Cta from "./components/Cta.jsx";
 import Footer from "./components/Footer.jsx";
+import Booking from "./components/Booking.jsx";
 import { useLang } from "./i18n.jsx";
 
 export default function App() {
   const { t } = useLang();
+  const booking = window.location.pathname === "/reservation.html" || new URLSearchParams(window.location.search).has("payment");
 
-  // Lenis smooth scrolling (skipped when the user prefers reduced motion)
+  // Keep wheel smoothing independent of Windows animation settings, as requested.
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ lerp: 0.09, anchors: { offset: -96 } });
+    const lenis = new Lenis({
+      lerp: 0.085,
+      smoothWheel: true,
+      respectReducedMotion: false,
+      anchors: { offset: -96 },
+    });
     let raf = requestAnimationFrame(function loop(time) {
       lenis.raf(time);
       raf = requestAnimationFrame(loop);
@@ -32,7 +38,7 @@ export default function App() {
   return (
     <>
       <Nav />
-      <main>
+      <main>{booking ? <Booking /> : <>
         <Hero />
         <Marquee />
         <Statement />
@@ -41,12 +47,12 @@ export default function App() {
         <Process />
         <Faq />
         <Cta />
-      </main>
+      </>}</main>
       <Footer />
-      <a className="float-cta" href="#contact">
+      {!booking && <a className="float-cta" href="/reservation.html">
         {t.float}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
-      </a>
+      </a>}
     </>
   );
 }

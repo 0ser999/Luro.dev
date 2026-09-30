@@ -34,14 +34,14 @@ export default function Nav() {
 
   return (
     <header className={`nav ${docked ? "docked" : "floating"}`}>
-      <a className="nav-pill logo" href="#top" aria-label={t.nav.home}>
+      <a className="nav-pill logo" href="/#top" aria-label={t.nav.home}>
         <img className="logo-mark" src="/favicon.png" alt="" width="34" height="34" />
         luro<span className="logo-dot">.lol</span>
       </a>
 
       <nav className="nav-pill links" aria-label={t.nav.main}>
         {IDS.map((id) => (
-          <a key={id} href={`#${id}`} className={active === id ? "on" : ""}>
+          <a key={id} href={`/#${id}`} className={active === id ? "on" : ""}>
             {t.nav[id]}
           </a>
         ))}

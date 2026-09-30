@@ -41,6 +41,6 @@ export default function PaymentReturn({ sessionId }) {
     {status !== "sent" && <button type="button" className="btn btn-dark" disabled={checking} onClick={() => setAttempt(attempt + 1)}>
       {checking ? t.order.checking : t.order.checkAgain}
     </button>}
-    {status === "sent" && <a className="btn btn-dark" href="/?payment=new#contact">{t.order.newOrder}</a>}
+    {status === "sent" && <a className="btn btn-dark" href="/reservation.html">{t.order.newOrder}</a>}
   </div>;
 }

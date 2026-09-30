@@ -39,8 +39,8 @@ export function createPayments({ env = process.env, stripeClient, redisClient, f
         client_reference_id: id, metadata: { order_id: id },
         line_items: [{ quantity: 1, price_data: { currency: record.currency,
           unit_amount: record.amount, product_data: { name: service[lang] } } }],
-        success_url: `${origin.origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}#contact`,
-        cancel_url: `${origin.origin}/?payment=cancelled#contact`,
+        success_url: `${origin.origin}/reservation.html?payment=success&session_id={CHECKOUT_SESSION_ID}#contact`,
+        cancel_url: `${origin.origin}/reservation.html?payment=cancelled#contact`,
         expires_at: Math.floor(Date.now() / 1000) + 3600,
       }, { idempotencyKey: id });
       if (!session.url || !session.id) throw new Error("checkout");
