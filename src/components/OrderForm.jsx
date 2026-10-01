@@ -42,11 +42,16 @@ function readDraft() {
   return { service: "pc" };
 }
 
-function CheckoutForm({ cancelled }) {
+function CheckoutForm({ cancelled, category }) {
   const { t, lang } = useLang();
   const copy = t.order;
   const [draft] = useState(readDraft);
   const [service, setService] = useState(draft.service);
+  useEffect(() => {
+    if (category === "pc" || category === "design") {
+      setService((current) => ORDER_SERVICES[current].group === category ? current : category === "pc" ? "pc" : "poster");
+    }
+  }, [category]);
   const selected = ORDER_SERVICES[service];
   const container = useRef(null);
   const widget = useRef(null);
@@ -142,7 +147,7 @@ function CheckoutForm({ cancelled }) {
       <ol className="order-steps"><li className="current">{copy.steps[0]}</li><li>{copy.steps[1]}</li><li>{copy.steps[2]}</li></ol>
       {cancelled && <p className="order-notice order-neutral">{copy.cancelled}</p>}
       <fieldset className="order-fields" disabled={loading}>
-        <div className="order-wide"><ServicePicker value={service} onChange={setService} /></div>
+        <div className="order-wide"><ServicePicker value={service} onChange={setService} hideCategories={Boolean(category)} /></div>
         <div className="order-field">
           <label htmlFor="order-name">{copy.name} *</label>
           <input id="order-name" name="name" autoComplete="name" required maxLength={ORDER_LIMITS.name} defaultValue={draft.name ?? ""} />
@@ -187,7 +192,7 @@ function CheckoutForm({ cancelled }) {
   );
 }
 
-export default function OrderForm() {
+export default function OrderForm({ category }) {
   const params = new URLSearchParams(window.location.search);
   useEffect(() => {
     if (!new URLSearchParams(window.location.search).has("payment")) return;
@@ -195,5 +200,5 @@ export default function OrderForm() {
     return () => cancelAnimationFrame(frame);
   }, []);
   if (params.get("payment") === "success") return <PaymentReturn sessionId={params.get("session_id") ?? ""} />;
-  return <CheckoutForm cancelled={params.get("payment") === "cancelled"} />;
+  return <CheckoutForm cancelled={params.get("payment") === "cancelled"} category={category} />;
 }
