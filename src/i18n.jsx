@@ -12,7 +12,7 @@ const en = {
     badge: "New",
     badgeText: "Available for new projects",
     h1a: "PCs that run fast.",
-    h1b: "Posters that stand out.",
+    h1b: "Websites & visuals that stand out.",
     lead: "Professional PC optimizer for 5½ years, graphic designer for 3. BIOS tuning, Windows and posters in Photoshop and Figma. I'm Luro.",
     cta1: "Book a service",
     cta2: "Explore my projects ↗",
@@ -34,8 +34,8 @@ const en = {
   },
   services: {
     eyebrow: "What I do",
-    title: "5½ years optimizing PCs. 3 years designing.",
-    sub: "A professional PC optimizer with clients, and a graphic designer working in Photoshop and Figma.",
+    title: "Performance. Design. Your website.",
+    sub: "PC optimization, custom visuals and websites built around your project.",
     stats: [
       { v: 5.5, label: "years as a professional PC optimizer", note: "Working with clients" },
       { v: 3, label: "years of graphic design", note: "Photoshop & Figma" },
@@ -96,8 +96,8 @@ const en = {
     ],
   },
   cta: {
-    title: "A PC to boost or a poster to create?",
-    text: "Message me with your setup or your idea and I'll get back to you as soon as possible.",
+    title: "A PC, a visual, a website?",
+    text: "Book a service or tell me about your website project for a custom quote.",
   },
   order: {
     title: "Your next upgrade starts here.",
@@ -143,7 +143,7 @@ const fr = {
     badge: "Nouveau",
     badgeText: "Disponible pour de nouveaux projets",
     h1a: "Des PC qui tournent vite.",
-    h1b: "Des affiches qui claquent.",
+    h1b: "Des sites et des visuels qui marquent.",
     lead: "Optimiseur PC professionnel depuis 5 ans et demi, graphiste depuis 3 ans. Réglages BIOS, Windows et affiches sur Photoshop et Figma. Je m'appelle Luro.",
     cta1: "Réserver une prestation",
     cta2: "Découvrir mes projets ↗",
@@ -165,8 +165,8 @@ const fr = {
   },
   services: {
     eyebrow: "Ce que je fais",
-    title: "5 ans et demi à optimiser des PC. 3 ans à créer.",
-    sub: "Optimiseur PC professionnel avec des clients, et graphiste sur Photoshop et Figma.",
+    title: "Performance. Design. Ton site web.",
+    sub: "Optimisation PC, visuels personnalisés et sites web conçus autour de ton projet.",
     stats: [
       { v: 5.5, label: "ans comme optimiseur PC professionnel", note: "Je travaille avec des clients" },
       { v: 3, label: "ans de graphisme", note: "Photoshop & Figma" },
@@ -227,8 +227,8 @@ const fr = {
     ],
   },
   cta: {
-    title: "Un PC à booster ou une affiche à créer ?",
-    text: "Écris-moi avec ta configuration ou ton idée, je te réponds dès que possible.",
+    title: "Un PC, un visuel, un site web ?",
+    text: "Réserve une prestation ou présente-moi ton projet de site pour un devis personnalisé.",
   },
   order: {
     title: "Ton prochain projet commence ici.",

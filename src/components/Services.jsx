@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Reveal from "./Reveal.jsx";
 import Stats from "./Stats.jsx";
+import WebsiteService from "./WebsiteService.jsx";
 import { Photoshop, Figma } from "./BrandIcons.jsx";
 import { useLang } from "../i18n.jsx";
 
@@ -50,6 +51,7 @@ export default function Services() {
       <Stats />
 
       <div className="bento" onMouseMove={spotlight}>
+        <Reveal className="website-service-wrap"><WebsiteService /></Reveal>
         <Reveal className="card c-pc">
           <div className="card-top">
             <div>
