@@ -13,21 +13,21 @@ Portfolio React + Vite, formulaire français/anglais dans `#contact`.
 
 Aucun Payment Link ni produit Stripe à créer à la main : le serveur construit les lignes de paiement. Aucune clé publique Stripe n'est nécessaire pour cette redirection.
 
-## Tarifs proposés en USD
+## Tarifs proposés en EUR
 
 | Prestation | Prix |
 | --- | ---: |
-| Optimisation complète Windows + BIOS | 90 $ |
-| Optimisation Windows | 50 $ |
-| Réglages BIOS | 40 $ |
-| Miniature | 20 $ |
-| Bannière | 25 $ |
-| Affiche / visuel | 35 $ |
-| Retouche photo | 25 $ |
-| Maquette Figma, un écran | 60 $ |
-| Identité visuelle, kit avatar + bannière + palette | 75 $ |
+| Optimisation complète Windows + BIOS | 90 € |
+| Optimisation Windows | 50 € |
+| Réglages BIOS | 40 € |
+| Miniature | 20 € |
+| Bannière | 25 € |
+| Affiche / visuel | 35 € |
+| Retouche photo | 25 € |
+| Maquette Figma, un écran | 60 € |
+| Identité visuelle, kit avatar + bannière + palette | 75 € |
 
-Windows 50 $ + BIOS 40 $ = pack complet 90 $. Les autres tarifs sont une proposition modifiable. Toutes les valeurs sont en centimes dans `src/order-config.js`, utilisées par le formulaire et le serveur. Une commande correspond à une prestation. Pas de coupon, conversion automatique, abonnement ou taxe supplémentaire configuré dans cette intégration.
+Windows 50 € + BIOS 40 € = pack complet 90 €. Les autres tarifs sont une proposition modifiable. Toutes les valeurs sont en centimes dans `src/order-config.js`, utilisées par le formulaire et le serveur. Une commande correspond à une prestation. Pas de coupon, conversion automatique, abonnement ou taxe supplémentaire configuré dans cette intégration.
 
 ## Configuration Vercel
 

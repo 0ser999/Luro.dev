@@ -48,8 +48,8 @@ function CheckoutForm({ cancelled, category }) {
   const [draft] = useState(readDraft);
   const [service, setService] = useState(draft.service);
   useEffect(() => {
-    if (category === "pc" || category === "design") {
-      setService((current) => ORDER_SERVICES[current].group === category ? current : category === "pc" ? "pc" : "poster");
+    if (["pc", "design", "website"].includes(category)) {
+      setService((current) => ORDER_SERVICES[current].group === category ? current : { pc: "pc", design: "poster", website: "landing" }[category]);
     }
   }, [category]);
   const selected = ORDER_SERVICES[service];
@@ -172,7 +172,7 @@ function CheckoutForm({ cancelled, category }) {
       </fieldset>
       <div className="order-summary" aria-live="polite">
         <div><span>{copy.total}</span><strong>{selected[lang]}</strong></div>
-        <b>{formatPrice(selected.amount, lang)}<small>USD</small></b>
+        <b>{formatPrice(selected.amount, lang)}<small>EUR</small></b>
       </div>
       <p className="order-payment-note">{copy.paymentNote}</p>
       <div className="order-captcha" ref={container} />

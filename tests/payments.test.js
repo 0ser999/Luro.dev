@@ -44,14 +44,27 @@ function fixture() {
     setFetch: (fn) => { fetchImpl = fn; } };
 }
 
-test("catalog sums Windows and BIOS to exactly 90 USD", () => {
+test("catalog sums Windows and BIOS to exactly 90 EUR", () => {
   assert.equal(ORDER_SERVICES.pc.amount, 9000);
   assert.equal(ORDER_SERVICES.windows.amount + ORDER_SERVICES.bios.amount, 9000);
 });
 
+test("website packages charge server EUR prices and fulfill confirmed payments", async () => {
+  for (const [service, amount] of [["landing", 14900], ["portfolio", 24900], ["business", 39900]]) {
+    const f = fixture();
+    await f.payments.createCheckout({ ...order, service, amount: 1, currency: "usd" }, "fr");
+    const price = f.creations[0].line_items[0].price_data;
+    assert.equal(price.unit_amount, amount);
+    assert.equal(price.currency, "eur");
+    Object.assign(f.session, { payment_status: "paid", status: "complete" });
+    await f.payments.fulfill(sessionId);
+    assert.equal(f.deliveries.length, 1);
+  }
+});
+
 test("Checkout uses server prices, binds required email and stores brief before payment", async () => {
   const f = fixture();
-  await f.payments.createCheckout({ ...order, amount: 1, currency: "eur" }, "fr");
+  await f.payments.createCheckout({ ...order, amount: 1, currency: "usd" }, "fr");
   const checkout = f.creations[0];
   const success = new URL(checkout.success_url);
   const cancel = new URL(checkout.cancel_url);
@@ -61,7 +74,7 @@ test("Checkout uses server prices, binds required email and stores brief before 
   assert.equal(cancel.pathname, "/reservation.html");
   assert.equal(cancel.searchParams.get("payment"), "cancelled");
   assert.equal(checkout.line_items[0].price_data.unit_amount, 9000);
-  assert.equal(checkout.line_items[0].price_data.currency, "usd");
+  assert.equal(checkout.line_items[0].price_data.currency, "eur");
   assert.deepEqual(checkout.adaptive_pricing, { enabled: false });
   assert.equal(checkout.customer_email, order.email);
   assert.equal(checkout.metadata.order_id, checkout.client_reference_id);
@@ -88,7 +101,7 @@ test("unpaid or incomplete sessions never send a Discord message", async () => {
 });
 
 test("wrong price, currency, reference or session never fulfills", async () => {
-  for (const changes of [{ amount_total: 1 }, { currency: "eur" }, { client_reference_id: "wrong" }, { id: "wrong" }]) {
+  for (const changes of [{ amount_total: 1 }, { currency: "usd" }, { client_reference_id: "wrong" }, { id: "wrong" }]) {
     const f = fixture();
     await f.payments.createCheckout(order, "fr");
     Object.assign(f.session, changes);
@@ -109,7 +122,7 @@ test("confirmed payment sends the embed once, including on webhook replay", asyn
   assert.equal(embed.title, "Nouvelle commande");
   assert.equal(embed.color, 0x5865F2);
   assert.equal(embed.fields.find((field) => field.name === "Email").value, order.email);
-  assert.equal(embed.fields.find((field) => field.name === "Paiement").value, "90.00 USD — payé");
+  assert.equal(embed.fields.find((field) => field.name === "Paiement").value, "90.00 EUR — payé");
   assert.ok(embed.fields.every((field) => field.value.length <= 1024));
   assert.deepEqual(await f.payments.status(sessionId), { status: "sent" });
 });
