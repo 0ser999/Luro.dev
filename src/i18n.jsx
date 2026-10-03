@@ -225,7 +225,7 @@ const en = {
     eyebrow: "Client Feedback",
     title: "Real Reviews from Real Gamers.",
     sub: "Authentic feedback gathered directly from our Discord community.",
-    score: "4.9 / 5",
+    score: "4.7 / 5",
     scoreNote: "Based on 150+ client optimizations",
     items: [
       {
@@ -362,7 +362,7 @@ const fr = {
     cta1: "Réserver une prestation",
     cta2: "Voir les benchmarks & créations ↗",
     ctaDiscord: "Rejoindre Discord",
-    ratingText: "4.9/5 · Plus de 150 machines optimisées",
+    ratingText: "4.7/5 · Plus de 150 machines optimisées",
     building: "Créateur de logiciel",
     optimized: "PC optimisé",
     winbios: "Windows + BIOS",
@@ -560,7 +560,7 @@ const fr = {
     eyebrow: "Témoignages Clients",
     title: "De vrais avis de vrais gamers.",
     sub: "Des retours d'expérience vérifiés issus directement de notre communauté Discord.",
-    score: "4.9 / 5",
+    score: "4.7 / 5",
     scoreNote: "Sur plus de 150 optimisations réalisées",
     items: [
       {

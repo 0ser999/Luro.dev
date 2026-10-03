@@ -1,0 +1,6 @@
+# https://luro.lol robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://luro.lol/sitemap.xml
