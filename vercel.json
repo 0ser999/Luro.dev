@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/llms.txt",
+      "missing": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(bot|crawler|spider|gpt|chatgpt|openai|claude|anthropic|perplexity|google|bing|facebook|twitter|curl|postman|python|wget).*"
+        }
+      ],
+      "destination": "/",
+      "permanent": false
+    }
+  ]
+}
