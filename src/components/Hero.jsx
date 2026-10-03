@@ -36,9 +36,14 @@ export default function Hero() {
       </div>
 
       <div className="hero-inner">
-        <a className="badge rise" style={rise(0)} href="#work">
-          <span className="status-dot" /> {h.building} <b>velyro.lol ↗</b>
-        </a>
+        <div className="hero-badges rise" style={rise(0)}>
+          <a className="badge" href="https://velyro.lol" target="_blank" rel="noopener noreferrer">
+            <span className="status-dot" /> {h.building} <b>velyro.lol ↗</b>
+          </a>
+          <span className="badge rating-badge">
+            <span style={{ color: "#f59e0b" }}>★★★★★</span> {h.ratingText}
+          </span>
+        </div>
         <h1>
           <span className="rise" style={rise(1)}>{h.h1a}</span>
           <span className="rise" style={rise(2)}>{h.h1b}</span>
@@ -48,7 +53,7 @@ export default function Hero() {
           <a className="btn btn-dark" href="/reservation.html">
             {h.cta1}
           </a>
-          <a className="btn btn-glass" href="#work">
+          <a className="btn btn-glass" href="#portfolio">
             {h.cta2}
           </a>
         </div>

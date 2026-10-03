@@ -5,7 +5,9 @@ import Hero from "./components/Hero.jsx";
 import Marquee from "./components/Marquee.jsx";
 import Statement from "./components/Statement.jsx";
 import Services from "./components/Services.jsx";
-import Work from "./components/Work.jsx";
+import Portfolio from "./components/Portfolio.jsx";
+import About from "./components/About.jsx";
+import Reviews from "./components/Reviews.jsx";
 import Process from "./components/Process.jsx";
 import Faq from "./components/Faq.jsx";
 import Cta from "./components/Cta.jsx";
@@ -38,21 +40,33 @@ export default function App() {
   return (
     <>
       <Nav />
-      <main>{booking ? <Booking /> : <>
-        <Hero />
-        <Marquee />
-        <Statement />
-        <Services />
-        <Work />
-        <Process />
-        <Faq />
-        <Cta />
-      </>}</main>
+      <main>
+        {booking ? (
+          <Booking />
+        ) : (
+          <>
+            <Hero />
+            <Marquee />
+            <Statement />
+            <Services />
+            <Portfolio />
+            <About />
+            <Reviews />
+            <Process />
+            <Faq />
+            <Cta />
+          </>
+        )}
+      </main>
       <Footer />
-      {!booking && <a className="float-cta" href="/reservation.html">
-        {t.float}
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
-      </a>}
+      {!booking && (
+        <a className="float-cta" href="/reservation.html">
+          {t.float}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 17 17 7M8 7h9v9" />
+          </svg>
+        </a>
+      )}
     </>
   );
 }

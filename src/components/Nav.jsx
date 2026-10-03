@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CONFIG } from "../config.js";
 import { useLang } from "../i18n.jsx";
 
-const IDS = ["services", "work", "process", "faq"];
+const IDS = ["services", "portfolio", "about", "reviews", "faq"];
 
 export default function Nav() {
   const { t, lang, setLang } = useLang();
@@ -35,8 +35,8 @@ export default function Nav() {
   return (
     <header className={`nav ${docked ? "docked" : "floating"}`}>
       <a className="nav-pill logo" href="/#top" aria-label={t.nav.home}>
-        <img className="logo-mark" src="/favicon.png" alt="" width="34" height="34" />
-        luro<span className="logo-dot">.lol</span>
+        <img className="logo-mark" src="/logo.jpg" alt="Luro" width="34" height="34" />
+        Luro
       </a>
 
       <nav className="nav-pill links" aria-label={t.nav.main}>

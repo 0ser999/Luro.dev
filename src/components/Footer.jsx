@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { CONFIG } from "../config.js";
 import { useLang } from "../i18n.jsx";
+import LegalModal from "./LegalModal.jsx";
 
-const WORD = "luro.lol";
-const IDS = ["services", "work", "process", "faq"];
+const WORD = "Luro";
+const IDS = ["services", "portfolio", "about", "reviews", "faq"];
 
-// Oversized wordmark: font-size is fitted so the word spans the full width of the footer.
 function GiantText() {
   const box = useRef(null);
   const word = useRef(null);
@@ -57,24 +57,50 @@ function GiantText() {
 }
 
 export default function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const [legalTab, setLegalTab] = useState(null);
 
   return (
-    <footer className="footer">
-      <div className="footer-top">
-        <nav className="footer-links" aria-label={t.nav.main}>
-          {IDS.map((id) => (
-            <a key={id} href={`/#${id}`}>{t.nav[id]}</a>
-          ))}
-          <a href={CONFIG.discord} target="_blank" rel="noopener noreferrer">Discord</a>
-          <a href={`mailto:${CONFIG.email}`}>Email</a>
-        </nav>
-        <div className="footer-meta">
-          <span>© {new Date().getFullYear()} Luro</span>
-          <a href="/#top">{t.footer.top}</a>
+    <>
+      <footer className="footer">
+        <div className="footer-top">
+          <nav className="footer-links" aria-label={t.nav.main}>
+            {IDS.map((id) => (
+              <a key={id} href={`/#${id}`}>
+                {t.nav[id]}
+              </a>
+            ))}
+            <a href={CONFIG.discord} target="_blank" rel="noopener noreferrer">
+              Discord
+            </a>
+            <a href={`mailto:${CONFIG.email}`}>Email</a>
+          </nav>
+          <div className="footer-legal-links">
+            <button className="legal-link-btn" onClick={() => setLegalTab("notices")}>
+              {t.footer.legal}
+            </button>
+            <span className="dot-sep">·</span>
+            <button className="legal-link-btn" onClick={() => setLegalTab("tos")}>
+              {t.footer.tos}
+            </button>
+            <span className="dot-sep">·</span>
+            <button className="legal-link-btn" onClick={() => setLegalTab("privacy")}>
+              {t.footer.privacy}
+            </button>
+          </div>
+          <div className="footer-meta">
+            <span>© {new Date().getFullYear()} Luro · {t.footer.rights}</span>
+            <a href="/#top">{t.footer.top}</a>
+          </div>
         </div>
-      </div>
-      <GiantText />
-    </footer>
+        <GiantText />
+      </footer>
+
+      <LegalModal
+        isOpen={Boolean(legalTab)}
+        initialTab={legalTab || "notices"}
+        onClose={() => setLegalTab(null)}
+      />
+    </>
   );
 }

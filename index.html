@@ -1,30 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Luro — PC Optimization, BIOS & Design</title>
-    <meta name="description" content="Luro: professional PC optimizer for 5+ years and graphic designer for 3 years. BIOS tuning, Windows optimization and posters in Photoshop and Figma." />
+    <title>Luro</title>
+    <meta name="description" content="Luro : optimiseur PC professionnel depuis 6 ans et designer graphique depuis 3 ans. Réglages BIOS, réduction d'input lag Windows, boost FPS 1% Low et créations Photoshop/Figma." />
+    <meta name="keywords" content="optimisation pc, optimisation windows 11, reglage bios, xmp expo, resizable bar, reduction input lag, boost fps, 1% low fps, dpc latency, graphiste photoshop, figma, miniatures youtube, luro lol, velyro" />
+    <meta name="author" content="Luro" />
+    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#8ccbff" />
     <link rel="canonical" href="https://luro.lol/" />
 
-    <!-- SEO / social preview banner (public/og-image.png, 600x315) -->
+    <!-- SEO / Social preview banner -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="luro.lol" />
     <meta property="og:url" content="https://luro.lol/" />
-    <meta property="og:title" content="Luro — PC Optimization, BIOS & Design" />
-    <meta property="og:description" content="Professional PC optimizer for 5+ years and graphic designer for 3 years. BIOS tuning, Windows optimization and posters in Photoshop and Figma." />
+    <meta property="og:title" content="Luro" />
+    <meta property="og:description" content="Optimiseur PC professionnel (6 ans) & designer graphique (3 ans). Optimisation Windows, BIOS UEFI, réduction latence gaming et identités visuelles sur-mesure." />
     <meta property="og:image" content="https://luro.lol/og-image.png" />
-    <meta property="og:image:width" content="600" />
-    <meta property="og:image:height" content="315" />
-    <meta property="og:image:alt" content="luro.lol — Where code meets design" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Luro — PC Optimization, BIOS & Design" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Luro — PC Optimization, BIOS & Design" />
-    <meta name="twitter:description" content="Professional PC optimizer for 5+ years and graphic designer for 3 years." />
+    <meta name="twitter:title" content="Luro" />
+    <meta name="twitter:description" content="Optimiseur PC professionnel (6 ans) & graphiste (3 ans). Réglages BIOS, Windows et affiches Photoshop/Figma." />
     <meta name="twitter:image" content="https://luro.lol/og-image.png" />
+
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Structured Data (Schema.org JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://luro.lol/#luro",
+          "name": "Luro",
+          "url": "https://luro.lol",
+          "jobTitle": "PC Optimization Specialist & Graphic Designer",
+          "description": "Professional PC optimizer with 6 years experience and graphic designer for 3 years. Creator of Velyro software."
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://luro.lol/#business",
+          "name": "Luro PC Optimization & Design",
+          "url": "https://luro.lol",
+          "logo": "https://luro.lol/favicon.png",
+          "image": "https://luro.lol/og-image.png",
+          "description": "Tailored remote PC optimization (Windows latency, BIOS UEFI calibration, FPS boost) and graphic design services.",
+          "priceRange": "€20 - €399",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "150",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Services Luro",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Optimisation Windows 10 & 11",
+                  "description": "Nettoyage en profondeur des services, suppression des bloatwares, latence DPC et plan d'alimentation"
+                },
+                "price": "50",
+                "priceCurrency": "EUR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Calibration BIOS & UEFI",
+                  "description": "Profil XMP/EXPO, Resizable BAR, timings mémoire et courbes de ventilation personnalisées"
+                },
+                "price": "40",
+                "priceCurrency": "EUR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Pack Gaming & Esport Compétitif",
+                  "description": "Pack complet Windows + BIOS pour éliminer les micro-saccades et réduire l'input lag souris"
+                },
+                "price": "90",
+                "priceCurrency": "EUR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Design Graphique & Affiches",
+                  "description": "Affiches événements, miniatures YouTube et identités visuelles sous Photoshop et Figma"
+                },
+                "price": "20",
+                "priceCurrency": "EUR"
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
