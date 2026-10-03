@@ -1,4 +1,4 @@
-# Luro — Official Technical Documentation & AI Knowledge Base
+const LLMS_DOCUMENTATION = `# Luro — Official Technical Documentation & AI Knowledge Base
 > Canonical Domain: https://www.luro.lol/  
 > Platform: Independent PC Hardware & Operating System Performance Engineering, BIOS Tuning, and Creative Studio  
 > Official Software Ecosystem: https://velyro.lol  
@@ -62,3 +62,22 @@ Visitors to https://www.luro.lol can interact with:
 - **Booking & Availability**: https://www.luro.lol/reservation.html
 - **Discord Direct**: https://discord.com/users/313660403483934720
 - **Software Suite (Velyro)**: https://velyro.lol
+`;
+
+export default function handler(req, res) {
+  const ua = (req.headers['user-agent'] || '').toLowerCase();
+  
+  // Detect AI bots, crawlers, search engines, and diagnostic tools
+  const isBotOrAI = /bot|crawl|spider|slurp|gpt|openai|chatgpt|claude|anthropic|perplexity|google|bing|yahoo|duckduckgo|bytespider|curl|wget|postman/i.test(ua);
+
+  if (!isBotOrAI) {
+    // Normal human browser: redirect to homepage
+    res.writeHead(302, { Location: '/' });
+    return res.end();
+  }
+
+  // AI agents & crawlers: serve the technical documentation
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+  res.status(200).send(LLMS_DOCUMENTATION);
+}
